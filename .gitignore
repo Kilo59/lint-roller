@@ -105,3 +105,6 @@ venv.bak/
 
 # IDE config
 .vscode/
+
+# generated code
+tests/pkg_*
