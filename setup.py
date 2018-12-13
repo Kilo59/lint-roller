@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 NAME = "lint-roller"
-VERSION = "18.0a"
+VERSION = "18.0a.1"
 DESCRIPTION = "Audit linting errors and identify cost savings."
 REQUIRMENTS = ["pylint", "invoke"]
 EXTRAS = {"format": ["black"]}
@@ -23,6 +23,9 @@ setup(
     extras_require=EXTRAS,
     include_package_data=True,
     license="MIT",
+    entry_points={
+        "console_scripts": ["lint-roller = lint_roller.__main__:program.run"]
+    },
     classifier=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -35,4 +38,3 @@ setup(
         "Development Status :: 2 - Pre-Alpha",
     ],
 )
-
