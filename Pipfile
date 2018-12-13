@@ -4,10 +4,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pytest = "*"
+lint-roller = {editable = true,path = "."}
 
 [packages]
 pylint = "*"
 black = "==18.9b0"
+invoke = "*"
 
 [requires]
 python_version = "3.7.1"
