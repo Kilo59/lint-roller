@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pathlib
+import shutil
 from typing import Dict, Optional
 import pytest
 
@@ -23,14 +24,16 @@ def package_maker(pkg_name: str, pkg_content: Optional[Dict] = None):
         module_path = pkg_dir.joinpath(name)
         with module_path.open(mode="w") as f_out:
             f_out.write(content)
-    return True
+    return pkg_dir
 
 
 @pytest.fixture(scope="module")
 def dirty_package():
-    temp_pkg = pathlib.Path(TEST_ROOT).joinpath("")
-    yield "stuff"
+    temp_pkg_path = package_maker("pkg_a")
+    print("Yielded...")
+    yield temp_pkg_path
     print("CLEANING UP DIRTY PACKAGE")
+    shutil.rmtree(temp_pkg_path)
 
 
 if __name__ == "__main__":
