@@ -7,7 +7,7 @@ def lint(ctx, targets="."):
     print("LINTING!")
     if isinstance(targets, (list, tuple, set)):
         targets = " ".join(targets)
-    ctx.run(f"pylint {targets}")
+    cmd_result = ctx.run(f"pylint {targets}")
 
 
 @task
