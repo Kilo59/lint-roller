@@ -36,4 +36,4 @@ def dirty_package():
 if __name__ == "__main__":
     print(TEST_ROOT)
     print(TEST_DOCS)
-    print(package_maker("pkg_a", {"__main__.py": ""}))
+    print(package_maker("pkg_a"))
