@@ -7,6 +7,9 @@ verify_ssl = true
 pytest = "*"
 pre-commit = "*"
 lint-roller = {editable = true,path = "."}
+pytest-cov = "*"
+coverage = "*"
+coveralls = "*"
 
 [packages]
 pylint = "*"
