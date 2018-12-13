@@ -15,7 +15,7 @@ test:
 lint:
 ifeq ($(TRAVIS_PYTHON_VERSION), 3.7)
 		pylint -f colorized lint_roller
-		
+
 else
 		echo "Only lint for Python3.7"
 endif
