@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+import pathlib
+from typing import Dict, Optional
+import pytest
+
+TEST_ROOT = pathlib.Path(__file__).joinpath("..")
+TEST_DOCS = TEST_ROOT.joinpath("docs")
+
+
+def package_maker(pkg_name: str, pkg_content: Optional[Dict] = None):
+    if not pkg_content:
+        with open(TEST_DOCS.joinpath("dirty_code.txt")) as f_in:
+            code_content = f_in.read()
+        pkg_content = {"__main__.py": code_content}
+
+    init_path = pathlib.Path(f"{pkg_name}/__init__.py")
+    with open(init_path) as f_out:
+        f_out.write(f"# {pkg_name} __init__ file")
+
+    for name, content in pkg_content.items():
+        module_path = pathlib.Path(f"{pkg_name}/{name}")
+        with open(module_path) as f_out:
+            f_out.write(content)
+    return True
+
+
+@pytest.fixture(scope="module")
+def dirty_package():
+    temp_pkg = pathlib.Path(TEST_ROOT).joinpath("")
+    yield "stuff"
+    print("CLEANING UP DIRTY PACKAGE")
+
+
+if __name__ == "__main__":
+    print(TEST_ROOT)
+    print(TEST_DOCS)
+    print(package_maker("pkg_a", {"__main__.py": ""}))
