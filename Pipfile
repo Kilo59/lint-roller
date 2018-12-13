@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
+pre-commit = "*"
 lint-roller = {editable = true,path = "."}
 
 [packages]
