@@ -18,7 +18,7 @@ install: "make"
 script:
   - make test
 after_success:
-  - tree .
+  - tree -C --dirsfirst -I '*.pyc'
   - coveralls
   - make lint
   - make check_format
