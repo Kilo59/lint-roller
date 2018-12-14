@@ -11,6 +11,7 @@ import pytest
 
 PKG_ROOT = pathlib.Path(__file__).joinpath("..").resolve()
 ROOT = PKG_ROOT.joinpath("..").resolve()
+DEPOT = ROOT.joinpath("pkg_depot")
 DATA = ROOT.joinpath("data")
 
 
@@ -23,11 +24,11 @@ def package_maker(
 
     Parameters
     ----------
-    pkg_name : str
+    pkg_name
         [description]
-    pkg_content : Optional[Dict], optional
+    pkg_content
         [description] (the default is None, which [default_description])
-    new_pkg_dir_path : Optional[pathlib.Path, str], optional
+    new_pkg_dir_path
         [description] (the default is None, which [default_description])
 
     Returns
@@ -41,7 +42,8 @@ def package_maker(
         pkg_content = {"__main__.py": code_content}
 
     if not new_pkg_dir_path:
-        new_pkg_dir_path = pathlib.Path(ROOT).joinpath(pkg_name)
+        DEPOT.mkdir(exist_ok=True)
+        new_pkg_dir_path = pathlib.Path(DEPOT).joinpath(pkg_name)
     else:
         new_pkg_dir_path = pathlib.Path(new_pkg_dir_path).resolve()
 
