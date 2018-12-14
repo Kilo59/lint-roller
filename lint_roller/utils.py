@@ -17,7 +17,7 @@ DATA = ROOT.joinpath("data")
 def package_maker(
     pkg_name: str,
     pkg_content: Optional[Dict] = None,
-    new_pkg_dir_path: Optional[pathlib.Path, str] = None,
+    new_pkg_dir_path: Optional[pathlib.Path] = None,
 ) -> pathlib.Path:
     """Create the directory structure and source code for a Python package.
 
