@@ -17,7 +17,7 @@ DATA = ROOT.joinpath("data")
 
 def package_maker(
     pkg_name: str,
-    pkg_content: Optional[Dict] = None,
+    pkg_content: Optional[Dict[str]] = None,
     new_pkg_dir_path: Optional[pathlib.Path] = None,
 ) -> pathlib.Path:
     """Create the directory structure and source code for a Python package.
@@ -25,11 +25,13 @@ def package_maker(
     Parameters
     ----------
     pkg_name
-        [description]
+        Name of the package. Will be used as package directory name.
     pkg_content
-        [description] (the default is None, which [default_description])
+        Dictionary of package module names and string of module source code as value
+        (the default is None, which will use some boilerplate code in need of linting)
     new_pkg_dir_path
-        [description] (the default is None, which [default_description])
+        Where to create the new package (the default is None, which will store it in a
+        sibling directory called `pkg_depot/`)
 
     Returns
     -------
@@ -40,6 +42,8 @@ def package_maker(
         with open(DATA.joinpath("dirty_code.txt")) as f_in:
             code_content = f_in.read()
         pkg_content = {"__main__.py": code_content}
+    elif not isinstance(pkg_content, dict):
+        raise TypeError("pkg_content should be a dictionary")
 
     if not new_pkg_dir_path:
         DEPOT.mkdir(exist_ok=True)

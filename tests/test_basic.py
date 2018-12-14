@@ -11,3 +11,11 @@ def test_basic_pkg_gen(tmpdir):
     assert isinstance(
         lr.utils.package_maker("my_test_pkg", new_pkg_dir_path=tmpdir), Path
     )
+
+
+@pytest.mark.parametrize(
+    "name,content,pkg_dir", [("bad_content_pkg", "not_a_dict", None)]
+)
+def test_basic_pkg_gen_bad_args(name, content, pkg_dir):
+    with pytest.raises(TypeError):
+        lr.utils.package_maker(name, content, pkg_dir)
