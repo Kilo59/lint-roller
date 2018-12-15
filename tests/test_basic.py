@@ -20,3 +20,7 @@ def test_basic_pkg_gen_bad_args(name, content, pkg_dir):
     """Test type checking"""
     with pytest.raises(TypeError):
         lr.utils.package_maker(name, content, pkg_dir)
+
+
+if __name__ == "__main__":
+    pytest.main(["-v", __file__])
