@@ -22,3 +22,4 @@ python_version = "3.7.1"
 [scripts]
 pre = "pre-commit run --all-files"
 test = "pytest -rf --cov-report term-missing --cov=lint_roller tests/"
+lint = "pylint -f colorized lint_roller"

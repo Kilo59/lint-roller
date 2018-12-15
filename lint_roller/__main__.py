@@ -5,9 +5,11 @@ lint_roller
 
 Audit linting errors and identify cost savings.
 """
-from invoke import Collection, Program
+from invoke import Collection, Program  # pylint: disable=import-error
 from lint_roller import tasks
 
+
+# pylint: disable=invalid-name
 program = Program(namespace=Collection.from_module(tasks), version="18.0a.1")
 
 if __name__ == "__main__":

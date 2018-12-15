@@ -5,7 +5,6 @@ utils
 lint-roller utility methods
 """
 import pathlib
-import shutil
 from typing import Dict, Optional
 from py._path.local import LocalPath
 
