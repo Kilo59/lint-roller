@@ -17,5 +17,6 @@ def test_basic_pkg_gen(tmpdir):
     [("bad_content_pkg", "not_a_dict", None), ("bad_path_pkg", None, 123)],
 )
 def test_basic_pkg_gen_bad_args(name, content, pkg_dir):
+    """Test type checking"""
     with pytest.raises(TypeError):
         lr.utils.package_maker(name, content, pkg_dir)

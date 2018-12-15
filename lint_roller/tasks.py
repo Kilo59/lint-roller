@@ -9,7 +9,7 @@ from invoke import task  # pylint: disable=import-error
 
 
 @task
-def lint(ctx, targets: Union[str, List, Tuple, Set] = "."):
+def lint(ctx, targets="."):
     """[summary]
 
     Parameters
@@ -19,7 +19,6 @@ def lint(ctx, targets: Union[str, List, Tuple, Set] = "."):
     targets : Union[str, List, Tuple, Set], optional
         [description] (the default is ".", which [default_description])
     """
-    print("LINTING!")
     if isinstance(targets, (list, tuple, set)):
         targets = " ".join(targets)
     cmd_result = ctx.run(f"pylint {targets}")
