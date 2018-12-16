@@ -22,10 +22,11 @@ def lint(context, targets="."):
     if isinstance(targets, (list, tuple, set)):
         targets = " ".join(targets)
     cmd_result = context.run(f"pylint {targets}")
+    return cmd_result
 
 
 @task
-def fmt(context):
+def fmt(context, targets="."):
     """[summary]
 
     Parameters
@@ -34,3 +35,7 @@ def fmt(context):
         [description]
     """
     print("FORMATTING!")
+    if isinstance(targets, (list, tuple, set)):
+        targets = " ".join(targets)
+    cmd_result = context.run(f"black {targets}")
+    return cmd_result
