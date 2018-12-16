@@ -1,12 +1,12 @@
 init:
 ifeq ($(TRAVIS), true)
 		pip install pipenv
-		pipenv install --dev
+		pipenv sync --dev
 		pip install .
 		# coverage doesn't work correctly without this (in travis) ??
 		touch tests/__init__.py
 else
-		pipenv install --dev
+		pipenv sync --dev
 		pre-commit install
 endif
 
