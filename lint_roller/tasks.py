@@ -9,23 +9,23 @@ from invoke import task  # pylint: disable=import-error
 
 
 @task
-def lint(ctx, targets="."):
+def lint(context, targets="."):
     """[summary]
 
     Parameters
     ----------
-    ctx : [type]
+    context : [type]
         [description]
     targets : Union[str, List, Tuple, Set], optional
         [description] (the default is ".", which [default_description])
     """
     if isinstance(targets, (list, tuple, set)):
         targets = " ".join(targets)
-    cmd_result = ctx.run(f"pylint {targets}")
+    cmd_result = context.run(f"pylint {targets}")
 
 
 @task
-def fmt(ctx):
+def fmt(context):
     """[summary]
 
     Parameters
