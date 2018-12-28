@@ -5,6 +5,7 @@ utils
 lint-roller utility methods
 """
 import pathlib
+import re
 
 # from pprint import pprint as pp
 from typing import Dict, Optional, Union, List, Tuple
@@ -100,12 +101,24 @@ def write_file(
     return filepath
 
 
-def run_pylint(module_name: str):
+def parse_pylint(pylint_output):
+    if isinstance(pylint_output, (list, tuple)):
+        pylint_output = "\n".join(pylint_output)
+    print(type(pylint_output))
+    re_match = re.search(r"\*{13} Module (?P<module>\w+.+)", pylint_output)
+    print(re_match)
+    for i in re_match.groups():
+        print(i)
+    # result = re.search(r"\*{13} Module", pylint_output)
+    # print(result)
+
+
+def run_pylint(module_name: str, command_args=""):
     """Run pylint and collect lint errors messages.
 
     Parameters
     ----------
-    module_name : str
+    module_name
         Module or package to run against.
 
     Returns
@@ -113,9 +126,33 @@ def run_pylint(module_name: str):
     dict
         A dictionary of the error messages.
     """
-    (pylint_stdout, pylint_stderr) = epylint.py_run(module_name, True)
+    (pylint_stdout, pylint_stderr) = epylint.py_run(
+        f"{module_name} {command_args}", True
+    )
     # show pylint errors
     for i in pylint_stderr:
         print(i)
 
     return list(pylint_stdout)
+
+    # stdout_lines = list(pylint_stdout)
+    # print(len(stdout_lines))
+    # print(stdout_lines[0])
+    # print(stdout_lines[1])
+
+    # pylint_res = {"C": [], "R": [], "W": [], "E": [], "F": []}
+    # for line in stdout_lines:
+    #     try:
+    #         msg_type, lineno = line.split(":", 2)[:2]
+    #         pylint_res[msg_type].append(lineno)
+    #     except ValueError:
+    #         print(line)
+    # pp(pylint_res)
+
+
+if __name__ == "__main__":
+    package_maker("package_a")
+    pylint_res = run_pylint(
+        "pkg_depot/package_a", command_args="--output-format=parseable"
+    )
+    write_file(pylint_res, "parseable_pylint.txt")
