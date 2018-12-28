@@ -24,6 +24,7 @@ def test_basic_pkg_gen_bad_args(name, content, pkg_dir):
 
 @pytest.mark.parametrize("content", ["ABC", list("ABC")])
 def test_writing_file(tmpdir, content):
+    """Ensure no errors when writing file"""
     lr.utils.write_file(content, tmpdir.join("abc.txt"))
 
 
