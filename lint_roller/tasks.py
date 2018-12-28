@@ -9,14 +9,14 @@ from invoke import task  # pylint: disable=import-error
 
 
 @task
-def lint(context, targets="."):
+def lint(context, targets: Union[str, List, Tuple, Set] = "."):
     """[summary]
 
     Parameters
     ----------
-    context : [type]
+    context
         [description]
-    targets : Union[str, List, Tuple, Set], optional
+    targets
         [description] (the default is ".", which [default_description])
     """
     if isinstance(targets, (list, tuple, set)):
