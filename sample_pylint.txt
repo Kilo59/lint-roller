@@ -1,0 +1,107 @@
+************* Module package_a
+ package_a\__init__.py:1: convention (C0304, missing-final-newline, ) Final newline missing
+ ************* Module package_a.__main__
+ package_a\__main__.py:28: warning (W0301, unnecessary-semicolon, ) Unnecessary semicolon
+ package_a\__main__.py:32: convention (C0325, superfluous-parens, ) Unnecessary parens after 'return' keyword
+ package_a\__main__.py:32: convention (C0326, bad-whitespace, ) No space allowed after bracket
+                 return( 'an unlucky number!')
+
+                       ^
+ package_a\__main__.py:34: convention (C0325, superfluous-parens, ) Unnecessary parens after 'return' keyword
+ package_a\__main__.py:38: convention (C0326, bad-whitespace, ) Exactly one space required after comma
+     def __init__(self, some_arg,  some_other_arg, verbose = False):
+
+                                ^
+ package_a\__main__.py:38: convention (C0326, bad-whitespace, ) No space allowed around keyword argument assignment
+     def __init__(self, some_arg,  some_other_arg, verbose = False):
+
+                                                           ^
+ package_a\__main__.py:39: convention (C0326, bad-whitespace, ) Exactly one space required around assignment
+         self.some_other_arg  =  some_other_arg
+
+                              ^
+ package_a\__main__.py:40: convention (C0326, bad-whitespace, ) Exactly one space required around assignment
+         self.some_arg        =  some_arg
+
+                              ^
+ package_a\__main__.py:1: convention (C0111, missing-docstring, ) Missing module docstring
+ package_a\__main__.py:3: warning (W0622, redefined-builtin, ) Redefining built-in 'pow'
+ package_a\__main__.py:3: warning (W0401, wildcard-import, ) Wildcard import math
+ package_a\__main__.py:8: convention (C0103, invalid-name, ) Constant name "some_global_var" doesn't conform to UPPER_CASE naming style
+ package_a\__main__.py:10: convention (C0103, invalid-name, multiply) Argument name "x" doesn't conform to snake_case naming style
+ package_a\__main__.py:10: convention (C0103, invalid-name, multiply) Argument name "y" doesn't conform to snake_case naming style
+ package_a\__main__.py:14: warning (W0621, redefined-outer-name, multiply) Redefining name 'some_global_var' from outer scope (line 8)
+ package_a\__main__.py:17: warning (W0101, unreachable, multiply) Unreachable code
+ package_a\__main__.py:14: warning (W0612, unused-variable, multiply) Unused variable 'some_global_var'
+ package_a\__main__.py:20: convention (C0103, invalid-name, is_sum_lucky) Argument name "x" doesn't conform to snake_case naming style
+ package_a\__main__.py:20: convention (C0103, invalid-name, is_sum_lucky) Argument name "y" doesn't conform to snake_case naming style
+ package_a\__main__.py:26: convention (C0121, singleton-comparison, is_sum_lucky) Comparison to None should be 'expr is not None'
+ package_a\__main__.py:29: refactor (R1705, no-else-return, is_sum_lucky) Unnecessary "else" after "return"
+ package_a\__main__.py:20: refactor (R1710, inconsistent-return-statements, is_sum_lucky) Either all return statements in a function should return an expression, or none of them should.
+ package_a\__main__.py:36: convention (C0111, missing-docstring, SomeClass) Missing class docstring
+ package_a\__main__.py:42: warning (W0621, redefined-outer-name, SomeClass.__init__) Redefining name 'time' from outer scope (line 6)
+ package_a\__main__.py:42: error (E0601, used-before-assignment, SomeClass.__init__) Using variable 'time' before assignment
+ package_a\__main__.py:38: refactor (R1711, useless-return, SomeClass.__init__) Useless return at end of function or method
+ package_a\__main__.py:38: warning (W0613, unused-argument, SomeClass.__init__) Unused argument 'verbose'
+ package_a\__main__.py:41: warning (W0612, unused-variable, SomeClass.__init__) Unused variable 'list_comprehension'
+ package_a\__main__.py:44: warning (W0612, unused-variable, SomeClass.__init__) Unused variable 'date_and_time'
+ package_a\__main__.py:36: refactor (R0903, too-few-public-methods, SomeClass) Too few public methods (0/2)
+ package_a\__main__.py:2: warning (W0611, unused-import, ) Unused import io
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import acos from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import acosh from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import asin from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import asinh from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import atan from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import atan2 from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import atanh from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import ceil from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import copysign from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import cos from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import cosh from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import degrees from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import e from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import erf from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import erfc from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import exp from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import expm1 from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import fabs from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import factorial from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import floor from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import fmod from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import frexp from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import fsum from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import gamma from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import gcd from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import hypot from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import inf from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import isclose from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import isfinite from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import isinf from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import isnan from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import ldexp from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import lgamma from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import log from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import log10 from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import log1p from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import log2 from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import modf from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import nan from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import pow from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import radians from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import remainder from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import sin from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import sinh from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import sqrt from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import tan from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import tanh from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import tau from wildcard import
+ package_a\__main__.py:3: warning (W0614, unused-wildcard-import, ) Unused import trunc from wildcard import
+ package_a\__main__.py:6: warning (W0611, unused-import, ) Unused time imported from time
+
+ ----------------------------------------------------------------------
+
+ Your code has been rated at -21.85/10 (previous run: -21.85/10, +0.00)
+
+
+
+
