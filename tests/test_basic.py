@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint as pp
 from pathlib import Path
 import pytest
 import lint_roller as lr
@@ -29,8 +30,10 @@ def test_writing_file(tmpdir, content):
 
 
 def test_basic_run_pylint(tmpdir):
+    """place holder test for running pylint"""
     pkg_path = lr.utils.package_maker("lint_target_pkg", new_pkg_path=tmpdir)
     pylint_result = lr.utils.run_pylint(str(pkg_path))
+    pp(pylint_result)
 
 
 if __name__ == "__main__":
