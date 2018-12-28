@@ -6,6 +6,7 @@ lint-roller utility methods
 """
 import pathlib
 import re
+from pprint import pprint as pp
 
 # from pprint import pprint as pp
 from typing import Dict, Optional, Union, List, Tuple
@@ -105,10 +106,11 @@ def parse_pylint(pylint_output):
     if isinstance(pylint_output, (list, tuple)):
         pylint_output = "\n".join(pylint_output)
     print(type(pylint_output))
-    re_match = re.search(r"\*{13} Module (?P<module>\w+.+)", pylint_output)
-    print(re_match)
-    for i in re_match.groups():
-        print(i)
+    path_match = r"(?P<path>.+\.py)"
+    line_match = r"(?P<line>\d+)"
+    full_match = r"(?P<path>.+\.py):(?P<line>\d+): (?P<type>\w+) \((?P<msg_id>[IRCWEF]\d+), (?P<symbol>[a-z-]+)"
+    msgs = re.findall(full_match, pylint_output)
+    pp(msgs)
     # result = re.search(r"\*{13} Module", pylint_output)
     # print(result)
 
@@ -123,8 +125,8 @@ def run_pylint(module_name: str):
 
     Returns
     -------
-    dict
-        A dictionary of the error messages.
+    str
+        A string of the pylint results
     """
     (pylint_stdout, pylint_stderr) = epylint.py_run(module_name, True)
     # show pylint errors
@@ -137,4 +139,5 @@ def run_pylint(module_name: str):
 if __name__ == "__main__":
     package_maker("package_a")
     pylint_res = run_pylint("pkg_depot/package_a")
-    write_file(pylint_res, "sample_pylint.txt")
+    parse_pylint(pylint_res)
+    # write_file(pylint_res, "sample_pylint.txt")
