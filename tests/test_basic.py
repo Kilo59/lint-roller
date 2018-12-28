@@ -28,5 +28,10 @@ def test_writing_file(tmpdir, content):
     lr.utils.write_file(content, tmpdir.join("abc.txt"))
 
 
+def test_basic_run_pylint(tmpdir):
+    pkg_path = lr.utils.package_maker("lint_target_pkg", new_pkg_path=tmpdir)
+    pylint_result = lr.utils.run_pylint(str(pkg_path))
+
+
 if __name__ == "__main__":
     pytest.main(["-v", __file__])

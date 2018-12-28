@@ -5,7 +5,8 @@ utils
 lint-roller utility methods
 """
 import pathlib
-from pprint import pprint as pp
+
+# from pprint import pprint as pp
 from typing import Dict, Optional, Union, List, Tuple
 from py._path.local import LocalPath
 from pylint import epylint
@@ -71,7 +72,7 @@ def write_file(
     filename: Union[pathlib.Path, str],
     mode: Optional = "w",
 ) -> pathlib.Path:
-    """Write to a file
+    """Write to a file.
 
     Write a str or list of strings to a file.
 
@@ -97,3 +98,24 @@ def write_file(
         if isinstance(filecontent, str):
             f_out.write(filecontent)
     return filepath
+
+
+def run_pylint(module_name: str):
+    """Run pylint and collect lint errors messages.
+
+    Parameters
+    ----------
+    module_name : str
+        Module or package to run against.
+
+    Returns
+    -------
+    dict
+        A dictionary of the error messages.
+    """
+    (pylint_stdout, pylint_stderr) = epylint.py_run(module_name, True)
+    # show pylint errors
+    for i in pylint_stderr:
+        print(i)
+
+    return list(pylint_stdout)
