@@ -22,5 +22,10 @@ def test_basic_pkg_gen_bad_args(name, content, pkg_dir):
         lr.utils.package_maker(name, content, pkg_dir)
 
 
+@pytest.mark.parametrize("content", ["ABC", list("ABC")])
+def test_writing_file(tmpdir, content):
+    lr.utils.write_file(content, tmpdir.join("abc.txt"))
+
+
 if __name__ == "__main__":
     pytest.main(["-v", __file__])

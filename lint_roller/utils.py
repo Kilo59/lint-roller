@@ -5,8 +5,10 @@ utils
 lint-roller utility methods
 """
 import pathlib
-from typing import Dict, Optional
+from pprint import pprint as pp
+from typing import Dict, Optional, Union, List, Tuple
 from py._path.local import LocalPath
+from pylint import epylint
 
 PKG_ROOT = pathlib.Path(__file__).joinpath("..").resolve()
 ROOT = PKG_ROOT.joinpath("..").resolve()
@@ -62,3 +64,36 @@ def package_maker(
         with module_path.open(mode="w") as f_out:
             f_out.write(content)
     return new_pkg_path
+
+
+def write_file(
+    filecontent: Union[str, List, Tuple],
+    filename: Union[pathlib.Path, str],
+    mode: Optional = "w",
+) -> pathlib.Path:
+    """Write to a file
+
+    Write a str or list of strings to a file.
+
+    Parameters
+    ----------
+    filecontent : Union[str, List, Tuple]
+        The content to be written. If a list or tuple, writelines() will be used,
+        instead of write().
+    filename : Union[pathlib.Path, str]
+        The filename or path.
+    mode : Optional, optional
+        Write mode to use. (the default is "w")
+
+    Returns
+    -------
+    pathlib.Path
+        A path object of the newly written file.
+    """
+    filepath = pathlib.Path(filename)
+    with open(filepath, mode=mode) as f_out:
+        if isinstance(filecontent, (list, tuple)):
+            f_out.writelines(filecontent)
+        if isinstance(filecontent, str):
+            f_out.write(filecontent)
+    return filepath
