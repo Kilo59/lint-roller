@@ -8,6 +8,7 @@ import pathlib
 import shutil
 import re
 import csv
+import collections
 from datetime import datetime
 from pprint import pprint as pp
 
@@ -111,6 +112,7 @@ class Auditor:
     def __init__(self, target):
         self._target = target
         self._ledger = {}
+        self.check_records()
 
     @classmethod
     def check_depot(cls, full_path=False):
@@ -152,6 +154,17 @@ class Auditor:
             print(ledger_dict, end="\n\n")
         else:
             raise TypeError("ledger must be a dictionary.")
+
+    def check_records(self):
+        audit_file = DATA.joinpath(f"audit__{self.target.stem}.csv")
+        if audit_file.exists():
+            print("  Audit records found!")
+            with open(audit_file, newline="") as csv_in:
+                reader = csv.DictReader(csv_in)
+                all_dates = [row["date"] for row in reader]
+            self.ledger = dict(collections.Counter(all_dates))
+        else:
+            print("  No Audit records found!")
 
     @staticmethod
     def datestamp(compact=True):
