@@ -102,37 +102,62 @@ def write_file(
     return filepath
 
 
-def parse_pylint(pylint_output: Union[str, List, Tuple]):
-    if isinstance(pylint_output, (list, tuple)):
-        pylint_output = "\n".join(pylint_output)
+class Auditor:
+    """Methods for assessing and tracking pylint messages over time."""
 
-    full_match = r"(?P<path>.+\.py):(?P<line>\d+): (?P<type>\w+) \((?P<msg_id>[IRCWEF]\d+), (?P<symbol>[a-z-]+)"
-    find_res = re.findall(full_match, pylint_output)
+    def __init__(self):
+        self.ledger = None
 
-    return find_res
+    @staticmethod
+    def parse_pylint(pylint_output: Union[str, List, Tuple]) -> List:
+        """parse the output of pylint and capture details.
 
+        Assumes the default pylint format is being used.
 
-def run_pylint(module_name: str):
-    """Run pylint and collect lint errors messages.
+        Note
+        ----
+        The format of each message tuple:
+        (path, line, type, msg_id, symbol)
 
-    Parameters
-    ----------
-    module_name
-        Module or package to run against.
+        Parameters
+        ----------
+        pylint_output : Union[str, List, Tuple]
+            A single string or collection of strings containing pylint default output.
 
-    Returns
-    -------
-    str
-        A string of the pylint results
-    """
-    (pylint_stdout, pylint_stderr) = epylint.py_run(module_name, True)
-    # show pylint errors
-    for i in pylint_stderr:
-        print(i)
+        Returns
+        -------
+        list
+            List of pylint message detail tuples.
+        """
+        if isinstance(pylint_output, (list, tuple)):
+            pylint_output = "\n".join(pylint_output)
 
-    return pylint_stdout.getvalue()
+        full_match = r"(?P<path>.+\.py):(?P<line>\d+): (?P<type>\w+) \((?P<msg_id>[IRCWEF]\d+), (?P<symbol>[a-z-]+)"
+        find_res = re.findall(full_match, pylint_output)
+        return find_res
+
+    @staticmethod
+    def run_pylint(module_name: str):
+        """Run pylint and collect lint errors messages.
+
+        Parameters
+        ----------
+        module_name
+            Module or package to run against.
+
+        Returns
+        -------
+        str
+            A string of the pylint results
+        """
+        (pylint_stdout, pylint_stderr) = epylint.py_run(module_name, True)
+        # show pylint errors
+        for i in pylint_stderr:
+            print(i)
+
+        return pylint_stdout.getvalue()
 
 
 if __name__ == "__main__":
     package_maker("package_a")
-    parse_pylint(run_pylint("pkg_depot/package_a"))
+    Auditor.parse_pylint(Auditor.run_pylint("pkg_depot/package_a"))

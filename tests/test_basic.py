@@ -3,6 +3,7 @@ from pprint import pprint as pp
 from pathlib import Path
 import pytest
 import lint_roller as lr
+from lint_roller.utils import Auditor
 
 
 def test_basic_pkg_gen(tmpdir):
@@ -32,9 +33,9 @@ def test_writing_file(tmpdir, content):
 def test_basic_run_pylint_and_parse(tmpdir):
     """place holder test for running pylint"""
     pkg_path = lr.utils.package_maker("lint_target_pkg", new_pkg_path=tmpdir)
-    pylint_result = lr.utils.run_pylint(str(pkg_path))
+    pylint_result = Auditor.run_pylint(str(pkg_path))
     pp(pylint_result)
-    assert lr.utils.parse_pylint(pylint_result) is not None
+    assert Auditor.parse_pylint(pylint_result) is not None
 
 
 if __name__ == "__main__":
