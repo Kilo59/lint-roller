@@ -16,6 +16,7 @@ from pprint import pprint as pp
 from typing import Dict, Optional, Union, List, Tuple
 from py._path.local import LocalPath
 from pylint import epylint
+import black
 
 PKG_ROOT = pathlib.Path(__file__).joinpath("..").resolve()
 ROOT = PKG_ROOT.joinpath("..").resolve()
@@ -106,12 +107,24 @@ def write_file(
     return filepath
 
 
+def file_tree(directory, glob_pattern="*"):
+    print(f"+ {directory}")
+    matched_paths = []
+    for path in sorted(directory.rglob(glob_pattern)):
+        matched_paths.append(path)
+        depth = len(path.relative_to(directory).parts)
+        spacer = "    " * depth
+        print(f"{spacer}+ {path.name}")
+    return matched_paths
+
+
 class Auditor:
     """Methods for assessing and tracking pylint messages over time."""
 
     def __init__(self, target):
         self._target = target
         self._ledger = {}
+        self.line_length = 79
         self.check_records()
 
     @classmethod
@@ -257,6 +270,13 @@ class Auditor:
                 writer.writeheader()
             writer.writerows(result_table)
 
+    def remediation(self):
+        "  Formatting files..."
+        for src_file in file_tree(self.target, "*.py"):
+            black.format_file_in_place(
+                src_file, self.line_length, False, write_back=black.WriteBack.YES
+            )
+
 
 if __name__ == "__main__":
     print(Auditor.check_depot())
@@ -266,5 +286,6 @@ if __name__ == "__main__":
     package_maker("package_a")
     Auditor.parse_pylint(Auditor.run_pylint("pkg_depot/package_a"))
     test_auditor = Auditor("pkg_depot/package_a")
+    test_auditor.remediation()
     test_auditor.export()
-    print(test_auditor.ledger)
+    # print(test_auditor.ledger)
