@@ -105,8 +105,28 @@ def write_file(
 class Auditor:
     """Methods for assessing and tracking pylint messages over time."""
 
-    def __init__(self):
-        self.ledger = None
+    def __init__(self, target):
+        self._target = target
+        self._ledger = None
+
+    @property
+    def target(self):
+        target_path = pathlib.Path(self._target)
+        if target_path.exists():
+            return pathlib.Path(self._target)
+        raise FileNotFoundError(f"Could not locate {self._target}")
+
+    @property
+    def ledger(self):
+        return self._ledger
+
+    @ledger.setter
+    def ledger(self, ledger_dict):
+        if isinstance(ledger_dict, dict):
+            self._ledger = ledger_dict
+            print(f"Updating {self.target.stem} ledger!")
+        else:
+            raise TypeError("ledger must be a dictionary.")
 
     @staticmethod
     def parse_pylint(pylint_output: Union[str, List, Tuple]) -> List:
@@ -157,7 +177,16 @@ class Auditor:
 
         return pylint_stdout.getvalue()
 
+    def export(self):
+        # export to csv/json based on .ext
+        # csv by default
+        print(self.target)
+        lint_res = Auditor.parse_pylint(Auditor.run_pylint(str(self.target)))
+        print(len(lint_res))
+
 
 if __name__ == "__main__":
     package_maker("package_a")
     Auditor.parse_pylint(Auditor.run_pylint("pkg_depot/package_a"))
+    test_auditor = Auditor("pkg_depot/package_a")
+    test_auditor.export()
