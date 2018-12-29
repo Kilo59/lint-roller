@@ -238,6 +238,8 @@ class Auditor:
         return pylint_stdout.getvalue()
 
     def export(self):
+        # TODO: breakup audit(commit=False), export()?
+        # `if not commit` do you want to commit the audit?
         # export to csv/json based on .ext
         # csv by default
         print(self.target)
