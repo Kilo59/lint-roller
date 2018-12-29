@@ -6,6 +6,7 @@ lint-roller utility methods
 """
 import pathlib
 import re
+import csv
 from pprint import pprint as pp
 
 # from pprint import pprint as pp
@@ -183,6 +184,25 @@ class Auditor:
         print(self.target)
         lint_res = Auditor.parse_pylint(Auditor.run_pylint(str(self.target)))
         print(len(lint_res))
+        pp(lint_res[:5], width=100)
+        result_table = []
+        for lint_tuple in lint_res:
+            result_table.append(
+                {
+                    "path": lint_tuple[0],
+                    "line": lint_tuple[1],
+                    "type": lint_tuple[2],
+                    "msg_id": lint_tuple[3],
+                    "symbol": lint_tuple[4],
+                }
+            )
+        # TODO: remove
+        # pp(result_table[:5])
+        with open("data/audit.csv", "w", newline="") as csv_out:
+            fieldnames = ("path", "line", "type", "msg_id", "symbol")
+            writer = csv.DictWriter(csv_out, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(result_table)
 
 
 if __name__ == "__main__":
