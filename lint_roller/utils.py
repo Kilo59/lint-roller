@@ -170,7 +170,7 @@ class Auditor:
         str
             A string of the pylint results
         """
-        (pylint_stdout, pylint_stderr) = epylint.py_run(module_name, True)
+        pylint_stdout, pylint_stderr = epylint.py_run(module_name, True)
         # show pylint errors
         for i in pylint_stderr:
             print(i)
