@@ -16,6 +16,7 @@ lint-roller = {editable = true,path = "."}
 pylint = "*"
 black = "==18.9b0"
 invoke = "*"
+dataset = "*"
 
 [requires]
 python_version = "3.7.1"
