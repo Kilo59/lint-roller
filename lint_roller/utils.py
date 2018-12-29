@@ -8,6 +8,7 @@ import pathlib
 import shutil
 import re
 import csv
+from datetime import datetime
 from pprint import pprint as pp
 
 # from pprint import pprint as pp
@@ -109,7 +110,7 @@ class Auditor:
 
     def __init__(self, target):
         self._target = target
-        self._ledger = None
+        self._ledger = {}
 
     @classmethod
     def check_depot(cls, full_path=False):
@@ -146,10 +147,20 @@ class Auditor:
     @ledger.setter
     def ledger(self, ledger_dict):
         if isinstance(ledger_dict, dict):
-            self._ledger = ledger_dict
-            print(f"Updating {self.target.stem} ledger!")
+            self._ledger.update(ledger_dict)
+            print(f"  Updating {self.target.stem} ledger!")
+            print(ledger_dict, end="\n\n")
         else:
             raise TypeError("ledger must be a dictionary.")
+
+    @staticmethod
+    def datestamp(compact=True):
+        # YYYY-MM-DDTHH:MM
+        stamp = datetime.today().isoformat().split(".")[0][:-3]
+        if compact:
+            # YY-MM-DD
+            return stamp[2:-6]
+        return stamp
 
     @staticmethod
     def parse_pylint(pylint_output: Union[str, List, Tuple]) -> List:
@@ -205,8 +216,11 @@ class Auditor:
         # csv by default
         print(self.target)
         lint_res = Auditor.parse_pylint(Auditor.run_pylint(str(self.target)))
-        print(len(lint_res))
-        pp(lint_res[:5], width=100)
+        # pp(lint_res[:5], width=100)
+        date = Auditor.datestamp(compact=False)
+        lint_msgs = len(lint_res)
+        # print(DATESTAMP, LINT_MSGS)
+        self.ledger = {date: lint_msgs}
         result_table = []
         for lint_tuple in lint_res:
             result_table.append(
@@ -216,22 +230,28 @@ class Auditor:
                     "type": lint_tuple[2],
                     "msg_id": lint_tuple[3],
                     "symbol": lint_tuple[4],
+                    "date": date,
                 }
             )
         # TODO: remove
         # pp(result_table[:5])
-        with open("data/audit.csv", "w", newline="") as csv_out:
-            fieldnames = ("path", "line", "type", "msg_id", "symbol")
+        audit_filepath = pathlib.Path(f"data/audit__{self.target.stem}.csv")
+        audit_file_exits = audit_filepath.exists()
+        with open(audit_filepath, "a", newline="") as csv_out:
+            fieldnames = ("path", "line", "type", "msg_id", "symbol", "date")
             writer = csv.DictWriter(csv_out, fieldnames=fieldnames)
-            writer.writeheader()
+            if not audit_file_exits:
+                writer.writeheader()
             writer.writerows(result_table)
 
 
 if __name__ == "__main__":
     print(Auditor.check_depot())
-    print(Auditor.empty_depot())
-    print(Auditor.check_depot())
+    Auditor.datestamp()
+    # print(Auditor.empty_depot())
+    # print(Auditor.check_depot())
     package_maker("package_a")
     Auditor.parse_pylint(Auditor.run_pylint("pkg_depot/package_a"))
     test_auditor = Auditor("pkg_depot/package_a")
     test_auditor.export()
+    print(test_auditor.ledger)
