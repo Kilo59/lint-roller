@@ -152,7 +152,7 @@ class Auditor:
         if isinstance(pylint_output, (list, tuple)):
             pylint_output = "\n".join(pylint_output)
 
-        full_match = r"(?P<path>.+\.py):(?P<line>\d+): (?P<type>\w+) \((?P<msg_id>[IRCWEF]\d+), (?P<symbol>[a-z-]+)"
+        full_match = r"(?P<path>[A-z\\]+\.py):(?P<line>\d+): (?P<type>\w+) \((?P<msg_id>[IRCWEF]\d+), (?P<symbol>[a-z-]+)"
         find_res = re.findall(full_match, pylint_output)
         return find_res
 
