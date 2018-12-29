@@ -102,17 +102,14 @@ def write_file(
     return filepath
 
 
-def parse_pylint(pylint_output):
+def parse_pylint(pylint_output: Union[str, List, Tuple]):
     if isinstance(pylint_output, (list, tuple)):
         pylint_output = "\n".join(pylint_output)
-    print(type(pylint_output))
-    path_match = r"(?P<path>.+\.py)"
-    line_match = r"(?P<line>\d+)"
+
     full_match = r"(?P<path>.+\.py):(?P<line>\d+): (?P<type>\w+) \((?P<msg_id>[IRCWEF]\d+), (?P<symbol>[a-z-]+)"
-    msgs = re.findall(full_match, pylint_output)
-    pp(msgs)
-    # result = re.search(r"\*{13} Module", pylint_output)
-    # print(result)
+    find_res = re.findall(full_match, pylint_output)
+
+    return find_res
 
 
 def run_pylint(module_name: str):
@@ -138,6 +135,4 @@ def run_pylint(module_name: str):
 
 if __name__ == "__main__":
     package_maker("package_a")
-    pylint_res = run_pylint("pkg_depot/package_a")
-    parse_pylint(pylint_res)
-    # write_file(pylint_res, "sample_pylint.txt")
+    parse_pylint(run_pylint("pkg_depot/package_a"))
