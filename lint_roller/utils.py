@@ -5,6 +5,7 @@ utils
 lint-roller utility methods
 """
 import pathlib
+import shutil
 import re
 import csv
 from pprint import pprint as pp
@@ -110,6 +111,27 @@ class Auditor:
         self._target = target
         self._ledger = None
 
+    @classmethod
+    def check_depot(cls, full_path=False):
+        pkgs_paths = [pkg for pkg in sorted(DEPOT.glob("*"))]
+        if pkgs_paths is None:
+            print("Depot empty...")
+            return None
+        if not full_path:
+            return [pkg.stem for pkg in pkgs_paths]
+        return pkgs_paths
+
+    @classmethod
+    def empty_depot(cls):
+        print("Package Depot\n=============")
+        depot_pkgs = cls.check_depot(full_path=True)
+        for pkg_path in depot_pkgs:
+            print(f"  {pkg_path.stem}")
+        response = input("Are you sure you want to empty the package depot?\n(Y/N)")
+        if response.upper() == "Y":
+            [shutil.rmtree(pkg_path) for pkg_path in depot_pkgs]
+            print("Depot emptied...\n")
+
     @property
     def target(self):
         target_path = pathlib.Path(self._target)
@@ -206,6 +228,9 @@ class Auditor:
 
 
 if __name__ == "__main__":
+    print(Auditor.check_depot())
+    print(Auditor.empty_depot())
+    print(Auditor.check_depot())
     package_maker("package_a")
     Auditor.parse_pylint(Auditor.run_pylint("pkg_depot/package_a"))
     test_auditor = Auditor("pkg_depot/package_a")
