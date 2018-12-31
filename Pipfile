@@ -13,10 +13,9 @@ coveralls = "*"
 lint-roller = {editable = true,path = "."}
 
 [packages]
-pylint = "*"
+pylint = ">=2.2"
 black = "==18.9b0"
 invoke = "*"
-dataset = "*"
 
 [requires]
 python_version = "3.7.1"
