@@ -6,7 +6,7 @@ lint_roller
 Audit linting errors and identify cost savings.
 """
 from invoke import Collection, Program  # pylint: disable=import-error
-from lint_roller import tasks
+from . import tasks
 
 
 # pylint: disable=invalid-name
