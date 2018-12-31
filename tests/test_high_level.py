@@ -11,7 +11,7 @@ TEST_DOCS = TEST_ROOT.joinpath("docs")
 
 def test_end_to_end():
     package_name = "package_abc"
-    audit_file = lr.DATA.joinpath(f"audit__{package_name}.csv")
+    audit_file = lr.Auditor.DATA.joinpath(f"audit__{package_name}.csv")
     package_path = pathlib.Path(package_name)
 
     print(lr.Auditor.check_depot())

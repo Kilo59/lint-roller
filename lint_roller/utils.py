@@ -20,8 +20,6 @@ import black
 
 PKG_ROOT = pathlib.Path(__file__).joinpath("..").resolve()
 ROOT = PKG_ROOT.joinpath("..").resolve()
-DEPOT = ROOT.joinpath("pkg_depot")
-DATA = ROOT.joinpath("data")
 
 
 def package_maker(
@@ -48,15 +46,15 @@ def package_maker(
         Path object of created python package
     """
     if not pkg_content:
-        with open(DATA.joinpath("dirty_code.txt")) as f_in:
+        with open(Auditor.DATA.joinpath("dirty_code.txt")) as f_in:
             code_content = f_in.read()
         pkg_content = {"__main__.py": code_content}
     elif not isinstance(pkg_content, dict):
         raise TypeError("pkg_content should be a dictionary")
 
     if not new_pkg_path:
-        DEPOT.mkdir(exist_ok=True)
-        new_pkg_path = pathlib.Path(DEPOT).joinpath(pkg_name)
+        Auditor.DEPOT.mkdir(exist_ok=True)
+        new_pkg_path = pathlib.Path(Auditor.DEPOT).joinpath(pkg_name)
     elif isinstance(new_pkg_path, (pathlib.Path, str, LocalPath)):
         new_pkg_path = pathlib.Path(new_pkg_path).resolve()
     else:
@@ -107,19 +105,24 @@ def write_file(
     return filepath
 
 
-def file_tree(directory, glob_pattern="*"):
-    print(f"+ {directory}")
+def file_tree(directory, glob_pattern="*", verbose=True):
+    if verbose:
+        print(f"+ {directory}")
     matched_paths = []
     for path in sorted(directory.rglob(glob_pattern)):
         matched_paths.append(path)
         depth = len(path.relative_to(directory).parts)
         spacer = "    " * depth
-        print(f"{spacer}+ {path.name}")
+        if verbose:
+            print(f"{spacer}+ {path.name}")
     return matched_paths
 
 
 class Auditor:
     """Methods for assessing and tracking pylint messages over time."""
+
+    DATA = ROOT.joinpath("data")
+    DEPOT = ROOT.joinpath("pkg_depot")
 
     def __init__(self, target):
         self._target = target
@@ -129,7 +132,7 @@ class Auditor:
 
     @classmethod
     def check_depot(cls, full_path=False):
-        pkgs_paths = [pkg for pkg in sorted(DEPOT.glob("*"))]
+        pkgs_paths = [pkg for pkg in sorted(cls.DEPOT.glob("*"))]
         if pkgs_paths is None:
             print("Depot empty...")
             return None
@@ -169,7 +172,8 @@ class Auditor:
             raise TypeError("ledger must be a dictionary.")
 
     def check_records(self):
-        audit_file = DATA.joinpath(f"audit__{self.target.stem}.csv")
+        # access class attribute
+        audit_file = type(self).DATA.joinpath(f"audit__{self.target.stem}.csv")
         if audit_file.exists():
             print("  Audit records found!")
             with open(audit_file, newline="") as csv_in:
