@@ -133,7 +133,9 @@ def write_file(
     return filepath
 
 
-def file_tree(directory, glob_pattern="*", verbose=True):
+def file_tree(
+    directory: Union[str, pathlib.Path], glob_pattern: str = "*", verbose: bool = True
+):
     if verbose:
         print(f"+ {directory}")
     matched_paths = []
@@ -152,14 +154,14 @@ class Auditor:
     DATA = ROOT.joinpath("data")
     DEPOT = ROOT.joinpath("pkg_depot")
 
-    def __init__(self, target):
+    def __init__(self, target: str):
         self._target = target
         self._ledger = {}
         self.line_length = 79
         self.check_records()
 
     @classmethod
-    def check_depot(cls, full_path=False):
+    def check_depot(cls, full_path: bool = False):
         pkgs_paths = [pkg for pkg in sorted(cls.DEPOT.glob("*"))]
         if pkgs_paths is None:
             print("Depot empty...")
@@ -169,7 +171,7 @@ class Auditor:
         return pkgs_paths
 
     @classmethod
-    def empty_depot(cls, response=""):
+    def empty_depot(cls, response: str = ""):
         print("Package Depot\n=============")
         depot_pkgs = cls.check_depot(full_path=True)
         for pkg_path in depot_pkgs:
@@ -185,7 +187,7 @@ class Auditor:
         return 0
 
     @classmethod
-    def delete_audit_recods(cls, response=""):
+    def delete_audit_recods(cls, response: str = ""):
         print("Audit Records\n=============")
         audit_records = file_tree(cls.DATA, glob_pattern=f"audit__*.csv", verbose=False)
         for pkg_path in audit_records:
@@ -201,7 +203,7 @@ class Auditor:
         return 0
 
     @classmethod
-    def _complete_purge(cls, response=""):
+    def _complete_purge(cls, response: str = ""):
         msg = "Purge All Records and stored Packages"
         print(f"{msg}\n{'=' * len(msg)}")
 
@@ -228,7 +230,7 @@ class Auditor:
         return self._ledger
 
     @ledger.setter
-    def ledger(self, ledger_dict):
+    def ledger(self, ledger_dict: Dict):
         if isinstance(ledger_dict, dict):
             self._ledger.update(ledger_dict)
             print(f"  Updating {self.target.stem} ledger!")
@@ -249,7 +251,7 @@ class Auditor:
             print("  No Audit records found!")
 
     @staticmethod
-    def datestamp(compact=True):
+    def datestamp(compact: bool = True):
         # YYYY-MM-DDTHH:MM
         stamp = datetime.today().isoformat().split(".")[0][:-3]
         if compact:
