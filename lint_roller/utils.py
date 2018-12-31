@@ -141,15 +141,36 @@ class Auditor:
         return pkgs_paths
 
     @classmethod
-    def empty_depot(cls):
+    def empty_depot(cls, response=""):
         print("Package Depot\n=============")
         depot_pkgs = cls.check_depot(full_path=True)
         for pkg_path in depot_pkgs:
             print(f"  {pkg_path.stem}")
-        response = input("Are you sure you want to empty the package depot?\n(Y/N)")
+
+        if not response:
+            response = input("Are you sure you want to empty the package depot?\n(Y/N)")
         if response.upper() == "Y":
-            [shutil.rmtree(pkg_path) for pkg_path in depot_pkgs]
-            print("Depot emptied...\n")
+            packages_deleted = len([shutil.rmtree(pkg_path) for pkg_path in depot_pkgs])
+            print(f"{packages_deleted}: Depot emptied...\n")
+            return packages_deleted
+        print("Operation cancelled...\n")
+        return 0
+
+    @classmethod
+    def delete_audit_recods(cls, response=""):
+        print("Audit Records\n=============")
+        audit_records = file_tree(cls.DATA, glob_pattern=f"audit__*.csv", verbose=False)
+        for pkg_path in audit_records:
+            print(f"  {pkg_path.stem}")
+
+        if not response:
+            response = input("Are you sure you want to clear all audit records?\n(Y/N)")
+        if response.upper() == "Y":
+            records_purged = len([record.unlink() for record in audit_records])
+            print(f"{records_purged}: Records purged...\n")
+            return records_purged
+        print("Operation cancelled...\n")
+        return 0
 
     @property
     def target(self):
