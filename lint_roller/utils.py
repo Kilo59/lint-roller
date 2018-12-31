@@ -9,6 +9,8 @@ import shutil
 import re
 import csv
 import collections
+from functools import wraps
+from typing import Callable
 from io import StringIO
 from contextlib import redirect_stdout
 from datetime import datetime
@@ -24,10 +26,25 @@ PKG_ROOT = pathlib.Path(__file__).joinpath("..").resolve()
 ROOT = PKG_ROOT.joinpath("..").resolve()
 
 
-def silence(fn):
+def silence(func: Callable) -> Callable:
+    """Silence the stdout produced by decorated function (suppresses print statements
+    of the passed function).
+
+    Parameters
+    ----------
+    func : function
+        Function to silence.
+
+    Returns
+    -------
+    Callable
+        Silenced version of the original function.
+    """
+
+    @wraps(func)
     def silent_function(*args, **kwargs):
         with redirect_stdout(StringIO()):
-            result = fn(*args, **kwargs)
+            result = func(*args, **kwargs)
         return result
 
     return silent_function
