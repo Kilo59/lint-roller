@@ -28,6 +28,13 @@ def test_end_to_end():
     audit_file.unlink()
 
 
+@pytest.mark.xfail()
+def test_simple_audit():
+    """Placeholder test for future behavior that should produce a useable result"""
+    pkg_a_auditor = lr.Auditor("package_a")
+    pkg_a_auditor.audit()
+
+
 @pytest.mark.skip(msg="relying on data for other tests")
 def test_deleting_data():
     lr.Auditor._complete_purge(response="Y")
