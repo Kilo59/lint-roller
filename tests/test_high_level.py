@@ -31,8 +31,8 @@ def test_end_to_end():
 @pytest.mark.xfail()
 def test_simple_audit():
     """Placeholder test for future behavior that should produce a useable result"""
-    pkg_a_auditor = lr.Auditor("package_a")
-    pkg_a_auditor.audit()
+    my_pkg_auditor = lr.Auditor("my_package")
+    my_pkg_auditor.audit()
 
 
 @pytest.mark.skip(msg="relying on data for other tests")
