@@ -12,7 +12,7 @@ TEST_DOCS = TEST_ROOT.joinpath("docs")
 
 @pytest.fixture(scope="module")
 def dirty_package():
-    temp_pkg_path = lr_utils.package_maker("pkg_a")
+    temp_pkg_path = lr_utils.package_maker("my_package")
     print("Yielded...")
     yield temp_pkg_path
     print("CLEANING UP DIRTY PACKAGE")
@@ -22,4 +22,4 @@ def dirty_package():
 if __name__ == "__main__":
     print(TEST_ROOT)
     print(TEST_DOCS)
-    print(lr_utils.package_maker("pkg_a"))
+    print(lr_utils.package_maker("my_package"))
