@@ -3,7 +3,7 @@ from pprint import pprint as pp
 from pathlib import Path
 import pytest
 import lint_roller as lr
-from lint_roller.utils import Auditor
+from lint_roller.utils import Auditor, silence
 
 
 def test_basic_pkg_gen(tmpdir):
@@ -36,6 +36,26 @@ def test_basic_run_pylint_and_parse(tmpdir):
     pylint_result = Auditor.run_pylint(str(pkg_path))
     pp(pylint_result)
     assert Auditor.parse_pylint(pylint_result) is not None
+
+
+def test_silencing_decorator(capsys):
+    """Test the use of the lint_roller.utils @silence decorator"""
+    output = "SHOW ME WHAT YOU GOT!"
+
+    @silence
+    def show_me_what_you_got():
+        print(output)
+
+    print("check12")
+    capture_control = capsys.readouterr()
+    assert capture_control.out == "check12\n"
+
+    show_me_what_you_got()
+    captured = capsys.readouterr()
+    assert captured.out != f"{output}\n"
+
+    print(capture_control.out)
+    print(captured.out)
 
 
 if __name__ == "__main__":

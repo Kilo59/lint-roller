@@ -9,6 +9,8 @@ import shutil
 import re
 import csv
 import collections
+from io import StringIO
+from contextlib import redirect_stdout
 from datetime import datetime
 from pprint import pprint as pp
 
@@ -20,6 +22,15 @@ import black
 
 PKG_ROOT = pathlib.Path(__file__).joinpath("..").resolve()
 ROOT = PKG_ROOT.joinpath("..").resolve()
+
+
+def silence(fn):
+    def silent_function(*args, **kwargs):
+        with redirect_stdout(StringIO()):
+            result = fn(*args, **kwargs)
+        return result
+
+    return silent_function
 
 
 def package_maker(
@@ -171,6 +182,22 @@ class Auditor:
             return records_purged
         print("Operation cancelled...\n")
         return 0
+
+    @classmethod
+    def _complete_purge(cls, response=""):
+        msg = "Purge All Records and stored Packages"
+        print(f"{msg}\n{'=' * len(msg)}")
+
+        empty_depot_silent = silence(Auditor.empty_depot)
+        delete_audit_recods_silent = silence(Auditor.delete_audit_recods)
+
+        if not response:
+            response = input("Purge all audit records and stored packages?\n(Y/N)")
+        if response.upper() == "Y":
+            pkgs = empty_depot_silent(response="Y")
+            records = delete_audit_recods_silent(response="Y")
+            print(f"Packages:\t{pkgs}\nAudit Records:\t{records}")
+            print("  PURGED!\n")
 
     @property
     def target(self):

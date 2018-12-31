@@ -28,5 +28,10 @@ def test_end_to_end():
     audit_file.unlink()
 
 
+@pytest.mark.skip(msg="relying on data for other tests")
+def test_deleting_data():
+    lr.Auditor._complete_purge(response="Y")
+
+
 if __name__ == "__main__":
     pytest.main(["-v", __file__])
