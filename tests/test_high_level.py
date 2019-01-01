@@ -29,9 +29,10 @@ def test_end_to_end():
 
 
 @pytest.mark.xfail()
-def test_simple_audit():
+def test_simple_audit(dirty_package):
     """Placeholder test for future behavior that should produce a useable result"""
-    my_pkg_auditor = lr.Auditor("my_package")
+    my_package_path = dirty_package
+    my_pkg_auditor = lr.Auditor(my_package_path)
     my_pkg_auditor.audit()
 
 

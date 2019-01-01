@@ -13,7 +13,7 @@ TEST_DOCS = TEST_ROOT.joinpath("docs")
 @pytest.fixture(scope="module")
 def dirty_package():
     temp_pkg_path = lr_utils.package_maker("my_package")
-    print("Yielded...")
+    print(f"Package create at: {temp_pkg_path}")
     yield temp_pkg_path
     print("CLEANING UP DIRTY PACKAGE")
     shutil.rmtree(temp_pkg_path)
