@@ -186,11 +186,18 @@ class Auditor:
         return pkgs_paths
 
     @classmethod
-    def empty_depot(cls, response: str = ""):
+    def empty_depot(cls, response: str = "", _package: Optional[pathlib.Path] = None):
         print("Package Depot\n=============")
         depot_pkgs = cls.check_depot(full_path=True)
         for pkg_path in depot_pkgs:
             print(f"  {pkg_path.stem}")
+
+        if isinstance(_package, pathlib.Path):
+            if _package not in depot_pkgs:
+                raise FileNotFoundError(f"Could not find record of {_package}")
+            shutil.rmtree(_package)
+            print(f"Removed: {_package}\n")
+            return 1
 
         if not response:
             response = input("Are you sure you want to empty the package depot?\n(Y/N)")
@@ -325,6 +332,9 @@ class Auditor:
 
         return pylint_stdout.getvalue()
 
+    def audit(self):
+        raise NotImplementedError
+
     def export(self):
         # TODO: breakup audit(commit=False), export()?
         # `if not commit` do you want to commit the audit?
@@ -366,6 +376,17 @@ class Auditor:
             black.format_file_in_place(
                 src_file, self.line_length, False, write_back=black.WriteBack.YES
             )
+
+    def clear_record(self):
+        raise NotImplementedError
+
+    def clear_depot(self):
+        depot_pkg = type(self).DEPOT.joinpath(self.target.stem)
+        return type(self).empty_depot(_package=depot_pkg)
+
+    def purge(self):
+        self.clear_record()
+        self.clear_depot()
 
 
 if __name__ == "__main__":

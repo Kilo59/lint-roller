@@ -28,6 +28,24 @@ def test_end_to_end():
     audit_file.unlink()
 
 
+def test_clean_up():
+    package_name = "dustbunny"
+    package_path = lr.utils.package_maker(package_name)
+
+    dustbunny_auditor = lr.Auditor(package_path)
+    with pytest.raises(NotImplementedError):
+        dustbunny_auditor.audit()
+
+    depot_packages = dustbunny_auditor.check_depot()
+    assert package_name in depot_packages
+    dustbunny_auditor.clear_depot()
+
+    post_cleanup_pkgs = dustbunny_auditor.check_depot()
+    assert package_name not in post_cleanup_pkgs
+
+    assert len(depot_packages) - 1 == len(post_cleanup_pkgs)
+
+
 @pytest.mark.xfail()
 def test_simple_audit(dirty_package):
     """Placeholder test for future behavior that should produce a useable result"""
