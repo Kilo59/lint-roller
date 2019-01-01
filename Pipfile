@@ -18,7 +18,7 @@ black = "==18.9b0"
 invoke = "*"
 
 [requires]
-python_version = "3.7.1"
+python_version = "3.7.2"
 
 [scripts]
 pre = "pre-commit run --all-files"
