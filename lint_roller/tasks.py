@@ -4,12 +4,13 @@ tasks
 ~~~~~
 Invoke `tasks` file
 """
-from typing import Union, List, Tuple, Set
+# from typing import Union, List, Tuple, Set
 from invoke import task  # pylint: disable=import-error
 
 
 @task
-def lint(context, targets: Union[str, List, Tuple, Set] = "."):
+def lint(context, targets="."):
+    # def lint(context, targets: Union[str, List, Tuple, Set] = "."):
     """[summary]
 
     Parameters
