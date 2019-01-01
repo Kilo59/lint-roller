@@ -74,7 +74,7 @@ def package_maker(
         Path object of created python package
     """
     if not pkg_content:
-        with open(Auditor.DATA.joinpath("dirty_code.txt")) as f_in:
+        with open(Auditor.RECORDS.joinpath("dirty_code.txt")) as f_in:
             code_content = f_in.read()
         pkg_content = {"__main__.py": code_content}
     elif not isinstance(pkg_content, dict):
@@ -151,7 +151,7 @@ def file_tree(
 class Auditor:
     """Methods for assessing and tracking pylint messages over time."""
 
-    DATA = ROOT.joinpath("data")
+    RECORDS = ROOT.joinpath("records")
     DEPOT = ROOT.joinpath("pkg_depot")
 
     def __init__(self, target: str):
@@ -189,7 +189,9 @@ class Auditor:
     @classmethod
     def delete_audit_recods(cls, response: str = ""):
         print("Audit Records\n=============")
-        audit_records = file_tree(cls.DATA, glob_pattern=f"audit__*.csv", verbose=False)
+        audit_records = file_tree(
+            cls.RECORDS, glob_pattern=f"audit__*.csv", verbose=False
+        )
         for pkg_path in audit_records:
             print(f"  {pkg_path.stem}")
 
@@ -240,7 +242,7 @@ class Auditor:
 
     def check_records(self):
         # access class attribute
-        audit_file = type(self).DATA.joinpath(f"audit__{self.target.stem}.csv")
+        audit_file = type(self).RECORDS.joinpath(f"audit__{self.target.stem}.csv")
         if audit_file.exists():
             print("  Audit records found!")
             with open(audit_file, newline="") as csv_in:
@@ -334,7 +336,7 @@ class Auditor:
             )
         # TODO: remove
         # pp(result_table[:5])
-        audit_filepath = pathlib.Path(f"data/audit__{self.target.stem}.csv")
+        audit_filepath = pathlib.Path(f"records/audit__{self.target.stem}.csv")
         audit_file_exits = audit_filepath.exists()
         with open(audit_filepath, "a", newline="") as csv_out:
             fieldnames = ("path", "line", "type", "msg_id", "symbol", "date")
