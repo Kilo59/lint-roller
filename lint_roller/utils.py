@@ -75,7 +75,7 @@ def package_maker(
         Path object of created python package
     """
     if not pkg_content:
-        with open(Auditor.RECORDS.joinpath("dirty_code.txt")) as f_in:
+        with open(DATA.joinpath("dirty_code.txt")) as f_in:
             code_content = f_in.read()
         pkg_content = {"__main__.py": code_content}
     elif not isinstance(pkg_content, dict):
@@ -337,7 +337,7 @@ class Auditor:
             )
         # TODO: remove
         # pp(result_table[:5])
-        audit_filepath = pathlib.Path(f"records/audit__{self.target.stem}.csv")
+        audit_filepath = Auditor.RECORDS.joinpath(f"audit__{self.target.stem}.csv")
         audit_file_exits = audit_filepath.exists()
         with open(audit_filepath, "a", newline="") as csv_out:
             fieldnames = ("path", "line", "type", "msg_id", "symbol", "date")
