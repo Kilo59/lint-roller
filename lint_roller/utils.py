@@ -24,6 +24,7 @@ import black
 
 PKG_ROOT = pathlib.Path(__file__).joinpath("..").resolve()
 ROOT = PKG_ROOT.joinpath("..").resolve()
+DATA = ROOT.joinpath("data")
 
 
 def silence(func: Callable) -> Callable:
@@ -151,8 +152,8 @@ def file_tree(
 class Auditor:
     """Methods for assessing and tracking pylint messages over time."""
 
-    RECORDS = ROOT.joinpath("records")
-    DEPOT = ROOT.joinpath("pkg_depot")
+    RECORDS = DATA.joinpath("records")
+    DEPOT = DATA.joinpath("pkg_depot")
 
     def __init__(self, target: str):
         self._target = target
