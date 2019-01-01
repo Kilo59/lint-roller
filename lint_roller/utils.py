@@ -159,16 +159,30 @@ class Auditor:
         self._target = target
         self._ledger = {}
         self.line_length = 79
-        self.check_records()
+        self._check_records()
 
     @classmethod
-    def check_depot(cls, full_path: bool = False):
-        pkgs_paths = [pkg for pkg in sorted(cls.DEPOT.glob("*"))]
+    def check_depot(cls, full_path: bool = False) -> Set:
+        """Inspect the contents of the pkg_depot and return a set of the contents.
+
+        Parameters
+        ----------
+        full_path : bool, optional
+            Whether or not to return full Path objects of just the Path stems. (the
+            default is False)
+
+        Returns
+        -------
+        Set
+            A set of all the packages in the depot. May be Paths or strings of the path
+            stem.
+        """
+        pkgs_paths = {pkg for pkg in sorted(cls.DEPOT.glob("*"))}
         if pkgs_paths is None:
             print("Depot empty...")
             return None
         if not full_path:
-            return [pkg.stem for pkg in pkgs_paths]
+            return {pkg.stem for pkg in pkgs_paths}
         return pkgs_paths
 
     @classmethod
@@ -241,7 +255,7 @@ class Auditor:
         else:
             raise TypeError("ledger must be a dictionary.")
 
-    def check_records(self):
+    def _check_records(self):
         # access class attribute
         audit_file = type(self).RECORDS.joinpath(f"audit__{self.target.stem}.csv")
         if audit_file.exists():
