@@ -28,21 +28,23 @@ def test_end_to_end():
     audit_file.unlink()
 
 
+@pytest.mark.xfail()
 def test_clean_up(dirty_package):
-    package_name = "dustbunny"
+    """Test that Auditor instance objects can purge their associated data cleanly."""
+    package_name = "linty_pkg"
     package_path = lr.utils.package_maker(package_name)
     control_pkg_path = dirty_package
 
-    dustbunny_auditor = lr.Auditor(package_path)
-    with pytest.raises(NotImplementedError):
-        dustbunny_auditor.audit()
+    linty_pkg_auditor = lr.Auditor(package_path)
+    linty_pkg_auditor.audit()
 
-    depot_packages = dustbunny_auditor.check_depot()
+    depot_packages = linty_pkg_auditor.check_depot()
     assert package_name in depot_packages
     assert control_pkg_path.stem in depot_packages
-    dustbunny_auditor.clear_depot()
 
-    post_cleanup_pkgs = dustbunny_auditor.check_depot()
+    linty_pkg_auditor.purge()
+
+    post_cleanup_pkgs = linty_pkg_auditor.check_depot()
     assert package_name not in post_cleanup_pkgs
 
     # ensure extra packages were not removed.
