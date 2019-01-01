@@ -28,9 +28,10 @@ def test_end_to_end():
     audit_file.unlink()
 
 
-def test_clean_up():
+def test_clean_up(dirty_package):
     package_name = "dustbunny"
     package_path = lr.utils.package_maker(package_name)
+    control_pkg_path = dirty_package
 
     dustbunny_auditor = lr.Auditor(package_path)
     with pytest.raises(NotImplementedError):
@@ -38,12 +39,15 @@ def test_clean_up():
 
     depot_packages = dustbunny_auditor.check_depot()
     assert package_name in depot_packages
+    assert control_pkg_path.stem in depot_packages
     dustbunny_auditor.clear_depot()
 
     post_cleanup_pkgs = dustbunny_auditor.check_depot()
     assert package_name not in post_cleanup_pkgs
 
+    # ensure extra packages were not removed.
     assert len(depot_packages) - 1 == len(post_cleanup_pkgs)
+    assert control_pkg_path.stem in post_cleanup_pkgs
 
 
 @pytest.mark.xfail()
